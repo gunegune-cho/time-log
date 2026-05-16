@@ -3,6 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Time Log">
+  
   <link rel="icon" href="data:,">
   <title>Time Log</title>
   <script src="https://cdn.tailwindcss.com"></script>
@@ -14,8 +19,8 @@
     canvas { touch-action: none; }
   </style>
 </head>
-<body class="bg-gray-900 text-white min-h-screen flex flex-col font-sans overflow-hidden">
-  <div id="root" class="h-screen w-screen"></div>
+<body class="bg-gray-900 text-white font-sans overflow-hidden fixed inset-0">
+  <div id="root" class="w-full h-full absolute inset-0"></div>
 
   <script type="text/babel">
     const { useState, useEffect, useRef, useCallback } = React;
@@ -185,7 +190,7 @@
         <div className="h-full w-full flex flex-col relative">
           <input type="file" ref={fileInputRef} onChange={handleFileUpload} accept="image/*" className="hidden" />
 
-          <header className="p-4 flex justify-between items-center z-20 bg-gray-900 shadow-md">
+          <header className="pt-12 pb-4 px-4 flex justify-between items-center z-20 bg-gray-900 shadow-md shrink-0">
             <h1 className="text-xl font-bold flex items-center">
               <span className="mr-2 text-2xl">📸</span> 1:1 Photo Stamp
             </h1>
@@ -197,7 +202,7 @@
           </header>
 
           {showSettings && imageObj && (
-            <div className="absolute top-16 right-4 z-30 bg-gray-800/95 backdrop-blur-md p-5 rounded-2xl shadow-2xl w-64 border border-gray-700">
+            <div className="absolute top-24 right-4 z-30 bg-gray-800/95 backdrop-blur-md p-5 rounded-2xl shadow-2xl w-64 border border-gray-700">
               <div className="flex justify-between items-center mb-5">
                 <h2 className="font-semibold text-gray-200">스탬프 색상</h2>
                 <button type="button" onClick={() => setShowSettings(false)} className="text-xl">❌</button>
@@ -210,7 +215,7 @@
             </div>
           )}
 
-          <div className="flex-1 flex flex-col items-center justify-center bg-black p-4 relative">
+          <div className="flex-1 flex flex-col items-center justify-center bg-black p-4 relative overflow-hidden">
             {!imageObj ? (
               <div className="text-center">
                 <button type="button" onClick={() => { if(fileInputRef.current) fileInputRef.current.click(); }} className="w-32 h-32 mx-auto rounded-3xl border-2 border-dashed border-gray-600 flex flex-col items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800">
@@ -219,14 +224,14 @@
                 </button>
               </div>
             ) : (
-              <div className="w-full max-w-md flex flex-col items-center gap-4">
-                <div className="text-gray-400 text-sm flex items-center mb-1 animate-pulse">
+              <div className="w-full max-w-md flex flex-col items-center gap-4 h-full justify-center">
+                <div className="text-gray-400 text-sm flex items-center mb-1 animate-pulse shrink-0">
                   ✋ 사진을 드래그하여 위치 조정
                 </div>
-                <div ref={containerRef} className="w-full aspect-square bg-gray-800 rounded-lg overflow-hidden shadow-2xl border border-gray-800 cursor-move touch-none">
+                <div ref={containerRef} className="w-full aspect-square bg-gray-800 rounded-lg overflow-hidden shadow-2xl border border-gray-800 cursor-move touch-none shrink-0">
                   <canvas ref={canvasRef} onPointerDown={handlePointerDown} onPointerMove={handlePointerMove} onPointerUp={handlePointerUp} onPointerLeave={handlePointerUp} onPointerCancel={handlePointerUp} className="w-full h-full block" />
                 </div>
-                <div className="w-full bg-gray-800/50 p-4 rounded-xl flex items-center gap-3">
+                <div className="w-full bg-gray-800/50 p-4 rounded-xl flex items-center gap-3 shrink-0">
                   <span>➖</span>
                   <input type="range" min="1" max="3" step="0.01" value={zoom} onChange={handleZoomChange} className="w-full h-1.5 bg-gray-600 rounded-lg appearance-none cursor-pointer accent-blue-500" />
                   <span>➕</span>
@@ -235,7 +240,7 @@
             )}
           </div>
 
-          <div className="h-28 bg-gray-900 border-t border-gray-800 pb-6 pt-4 px-6 flex justify-center items-center z-20 w-full gap-6">
+          <div className="bg-gray-900 border-t border-gray-800 pb-10 pt-4 px-6 flex justify-center items-center z-20 w-full gap-6 shrink-0">
             {imageObj && (
               <React.Fragment>
                 <button type="button" onClick={() => { if(fileInputRef.current) fileInputRef.current.click(); }} className="flex flex-col items-center text-gray-400 flex-1 max-w-[100px]">
@@ -252,12 +257,12 @@
 
           {savedImage && (
             <div className="absolute inset-0 z-50 bg-black/95 flex flex-col items-center justify-center p-6">
-              <img src={savedImage} alt="완성" className="w-full max-w-md rounded-lg shadow-2xl mb-6 object-contain" />
-              <div className="text-center bg-gray-800 p-5 rounded-xl border border-gray-700 mb-6">
+              <img src={savedImage} alt="완성" className="w-full max-w-md rounded-lg shadow-2xl mb-6 object-contain max-h-[60vh]" />
+              <div className="text-center bg-gray-800 p-5 rounded-xl border border-gray-700 mb-6 shrink-0">
                 <p className="text-white font-bold mb-2">📸 이미지가 완성되었습니다!</p>
                 <p className="text-gray-400 text-sm">위에 있는 <span className="text-blue-400 font-bold">이미지를 길게 눌러</span><br />[이미지 저장]을 선택해주세요.</p>
               </div>
-              <button type="button" onClick={closeModal} className="px-8 py-3 bg-gray-700 text-white font-bold rounded-full">돌아가기</button>
+              <button type="button" onClick={closeModal} className="px-8 py-3 bg-gray-700 text-white font-bold rounded-full shrink-0">돌아가기</button>
             </div>
           )}
         </div>

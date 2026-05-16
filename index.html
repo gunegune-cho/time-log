@@ -118,7 +118,7 @@
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
         const minSourceDim = Math.min(imageObj.width, imageObj.height);
-        const cOut = Math.min(minSourceDim, 4000); // 4000px 최대 해상도
+        const cOut = Math.min(minSourceDim, 4000); 
         canvas.width = cOut;
         canvas.height = cOut;
         
@@ -212,7 +212,7 @@
           <div className="flex-1 flex flex-col items-center justify-center bg-black p-4 relative">
             {!imageObj ? (
               <div className="text-center">
-                <button type="button" onClick={() => fileInputRef.current?.click()} className="w-32 h-32 mx-auto rounded-3xl border-2 border-dashed border-gray-600 flex flex-col items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800">
+                <button type="button" onClick={() => { if(fileInputRef.current) fileInputRef.current.click(); }} className="w-32 h-32 mx-auto rounded-3xl border-2 border-dashed border-gray-600 flex flex-col items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800">
                   <span className="text-4xl mb-2">📤</span>
                   <span className="font-medium">사진 선택</span>
                 </button>
@@ -237,7 +237,7 @@
           <div className="h-28 bg-gray-900 border-t border-gray-800 pb-6 pt-4 px-6 flex justify-center items-center z-20 w-full gap-6">
             {imageObj && (
               <>
-                <button type="button" onClick={() => fileInputRef.current?.click()} className="flex flex-col items-center text-gray-400 flex-1 max-w-[100px]">
+                <button type="button" onClick={() => { if(fileInputRef.current) fileInputRef.current.click(); }} className="flex flex-col items-center text-gray-400 flex-1 max-w-[100px]">
                   <div className="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center mb-1 text-xl">🖼️</div>
                   <span className="text-xs">다른 사진</span>
                 </button>
